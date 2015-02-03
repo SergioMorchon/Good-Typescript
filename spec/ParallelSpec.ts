@@ -4,20 +4,20 @@ describe("Parallel",() => {
     "use strict";
 
     it("must be defined",() => {
-        expect(Patterns.Parallel).toBeDefined();
+        expect(Good.Patterns.Parallel).toBeDefined();
     });
 
     describe("Task",() => {
 
         it("must be defined",() => {
-            expect(Patterns.Parallel.Task).toBeDefined();
+            expect(Good.Patterns.Parallel.Task).toBeDefined();
         });
 
         it("must execute a callback passing parameters",(done: Function) => {
-            var task: Patterns.Parallel.Task<string, void, string>,
+            var task: Good.Patterns.Parallel.Task<string, void, string>,
                 p1 = "task", p2 = "must", p3 = ["w", "o", "r", "k"];
 
-            task = new Patterns.Parallel.Task<string, void, string>((r1: string, r2: string, r3: string[]) => {
+            task = new Good.Patterns.Parallel.Task<string, void, string>((r1: string, r2: string, r3: string[]) => {
                 expect(r1).toBe(p1);
                 expect(r2).toBe(p2);
                 expect(r3).toBe(p3);

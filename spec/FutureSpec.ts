@@ -4,25 +4,25 @@ describe("Future",() => {
     "use strict";
 
     it("must be defined",() => {
-        expect(Patterns.Future).toBeDefined();
+        expect(Good.Patterns.Future).toBeDefined();
     });
 
     describe("Async",() => {
-        var async: Patterns.Future.Async<any, any, any>,
-            await: Patterns.Future.IAwait<any, any, any>;
+        var async: Good.Patterns.Future.Async<any, any, any>,
+            await: Good.Patterns.Future.IAwait<any, any, any>;
 
         beforeEach(() => {
-            async = new Patterns.Future.Async();
+            async = new Good.Patterns.Future.Async();
             await = async.await();
         });
 
         it("must be defined",() => {
-            expect(Patterns.Future.Async).toBeDefined();
+            expect(Good.Patterns.Future.Async).toBeDefined();
         });
 
         describe("State",() => {
             it("must be defined",() => {
-                expect(Patterns.Future.Async.State).toBeDefined();
+                expect(Good.Patterns.Future.Async.State).toBeDefined();
             });
         });
 
@@ -44,7 +44,7 @@ describe("Future",() => {
                 progressResult += value;
             }).always(() => {
                 expect(progressResult).toBe(progressTimes * progressValue);
-                expect(async.state()).toBe(Patterns.Future.Async.State.Completed);
+                expect(async.state()).toBe(Good.Patterns.Future.Async.State.Completed);
                 done();
             });
 
@@ -58,11 +58,11 @@ describe("Future",() => {
             await.fail(() => {
                 done();
             }).always(() => {
-                expect(async.state()).toBe(Patterns.Future.Async.State.Completed);
+                expect(async.state()).toBe(Good.Patterns.Future.Async.State.Completed);
                 done();
             });
 
-            expect(async.state()).toBe(Patterns.Future.Async.State.Active);
+            expect(async.state()).toBe(Good.Patterns.Future.Async.State.Active);
             async.fail();
         });
 

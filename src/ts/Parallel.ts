@@ -1,5 +1,5 @@
 ﻿/// <reference path="future.ts" />
-module Patterns.Parallel {
+module Good.Patterns.Parallel {
 
     export class Task<TResult, TProgress, TException> {
 
@@ -17,7 +17,7 @@ module Patterns.Parallel {
             return this._async.await();
         }
 
-        startAsync(...args: any[]): Future.IAwait<TResult, TProgress, TException> {
+        runAsync(...args: any[]): Future.IAwait<TResult, TProgress, TException> {
             setTimeout(() => {
                 try {
                     this._async.end(this._callback.apply(this._thisArg, args));

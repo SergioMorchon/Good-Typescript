@@ -1,4 +1,4 @@
-﻿module Patterns.Future {
+﻿module Good.Patterns.Future {
 
     export interface IEndListener<TResult> {
         (result?: TResult): any;
