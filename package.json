@@ -1,0 +1,15 @@
+{
+    "name": "Good",
+    "version": "0.1.0",
+    "readme": "README.md",
+    "devDependencies": {
+        "grunt-contrib-clean": "*",
+        "grunt-contrib-jasmine": "*",
+        "grunt-contrib-jshint": "*",
+        "grunt-contrib-uglify": "*",
+        "grunt-jsonlint": "*",
+        "grunt-typescript": "*",
+        "grunt-banner": "*",
+        "typescript": "^1.4"
+    }
+}
