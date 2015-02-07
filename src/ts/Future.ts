@@ -1,20 +1,73 @@
-﻿module Good.Patterns.Future {
+﻿/**
+ * This module holds the Async-Await implementation of the Future pattern.
+ * Basically, an Await represents a promise of a result which we don't know when it will end, and the Async is the notifier for the awaitable object.
+ */
+module Good.Patterns.Future {
 
-    export interface IEndListener<TResult> {
+    /**
+     * The listener for a done event.
+     */
+    export interface IDoneListener<TResult> {
+        /**
+         * @param result The result value.
+         */
         (result?: TResult): any;
     }
+
+    /**
+     * The listener for a progress event.
+     */
     export interface IProgressListener<TProgress> {
-        (value?: TProgress): any;
+        /**
+         * @param progress The progress value.
+         */
+        (progress?: TProgress): any;
     }
+
+    /**
+     * The listener for a fail event.
+     */
     export interface IFailListener<TException> {
+        /**
+         * @param error The error value.
+         */
         (error?: TException): any;
     }
 
+    /**
+     * This is an awaitable interface.
+     */
     export interface IAwait<TResult, TProgress, TException> {
-        done(...listeners: IEndListener<TResult>[]): IAwait<TResult, TProgress, TException>;
+        /**
+         * Subscribe as many done listeners as you want, and they will be called when the resolve event is triggered.
+         */
+        done(...listeners: IDoneListener<TResult>[]): IAwait<TResult, TProgress, TException>;
+        /**
+         * Subscribe as many progress listeners as you want, and they will be called when the notify event is triggered.
+         */
         progress(...listeners: IProgressListener<TProgress>[]): IAwait<TResult, TProgress, TException>;
+        /**
+         * Subscribe as many fail listeners as you want, and they will be called when the reject event is triggered.
+         */
         fail(...listeners: IFailListener<TException>[]): IAwait<TResult, TProgress, TException>;
+        /**
+         * Subscribe as many always listeners as you want, and they will be called when the resolve or reject events are triggered.
+         */
         always(...listeners: Function[]): IAwait<TResult, TProgress, TException>;
+        /**
+         * It represents the current state of the awaitable.
+         */
+        state(): Async.State;
+    }
+
+    export interface IAwaitable<TResult, TProgress, TException> {
+        /**
+         * It returns an await from this async instance.
+         */
+        await(): IAwait<TResult, TProgress, TException>;
+        /**
+         * It represents the current state of the async.
+         */
         state(): Async.State;
     }
 
@@ -34,17 +87,30 @@
         }
     }
 
-    export interface IAsync<TResult, TProgress, TException> {
-        state(): Async.State;
-        await(): IAwait<TResult, TProgress, TException>;
+    /**
+     * This is an Async interface.
+     */
+    export interface IAsync<TResult, TProgress, TException> extends IAwaitable<TResult, TProgress, TException> {
+        /**
+         * This method resolves the current async.
+         * @param result The result tha will be received at the await done callbacks,
+         */
         resolve(result?: TResult): void;
+        /**
+         * This method rejects the current async.
+         * @param exception THe error that will be catched at the await fail callbacks.
+         */
         reject(exception?: TException): void;
+        /**
+         * This method notifies progress within the current async.
+         * @param progress THe progress value that will be received at the progress callbacks.
+         */
         notify(progress?: TProgress): void;
     }
 
     export class Async<TResult, TProgress, TException> implements IAsync<TResult, TProgress, TException> {
 
-        private _doneListeners = <IEndListener<TResult>[]>[];
+        private _doneListeners = <IDoneListener<TResult>[]>[];
         private _failListeners = <IFailListener<TException>[]>[];
         private _progressListeners = <IProgressListener<TProgress>[]>[];
         private _alwaysListeners = <Function[]>[];
@@ -146,11 +212,20 @@
 
     export module Async {
         export enum State {
+            /**
+             * The async is active.
+             */
             Active,
+            /**
+             * The async is completed.
+             */
             Completed
         }
     }
 
+    /**
+     * 
+     */
     export function await(...awaits: IAwait<any, any, any>[]) {
         var async = new Async<void, [number, number], void>(),
             await: IAwait<any, any, any>,
