@@ -1,6 +1,6 @@
 {
     "name": "Good",
-    "author": "Sergio Morchón Poveda",
+    "author": "Sergio Morchón Poveda <sergio.morchon@outlook.com>",
     "homepage": "https://github.com/SergioMorchon/Good",
     "description": "Some good and useful implementations for TypeScript or JavaScript projects.",
     "licenses": [
