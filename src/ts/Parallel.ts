@@ -9,7 +9,7 @@ module Good.Patterns.Parallel {
 
         constructor(callback: (...args: any[]) => TResult, thisArg: any = null) {
             this._callback = callback;
-            this._async = new Future.Async();
+            this._async = new Future.Async<TResult, TProgress, TException>();
             this._thisArg = thisArg;
         }
 
@@ -17,12 +17,12 @@ module Good.Patterns.Parallel {
             return this._async.await();
         }
 
-        runAsync(...args: any[]): Future.IAwait<TResult, TProgress, TException> {
+        run(...args: any[]): Future.IAwait<TResult, TProgress, TException> {
             setTimeout(() => {
                 try {
-                    this._async.end(this._callback.apply(this._thisArg, args));
+                    this._async.resolve(this._callback.apply(this._thisArg, args));
                 } catch (e) {
-                    this._async.fail(e);
+                    this._async.reject(e);
                 }
             });
             return this.await();

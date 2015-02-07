@@ -1,15 +1,39 @@
 {
     "name": "Good",
-    "version": "0.1.0",
+    "author": "Sergio Morchón Poveda",
+    "homepage": "https://github.com/SergioMorchon/Good",
+    "description": "Some good and useful implementations for TypeScript or JavaScript projects.",
+    "licenses": [
+        {
+            "type": "GPL 3",
+            "urrl": "https://github.com/SergioMorchon/Good/blob/master/LICENSE.txt"
+        }
+    ],
+    "keywords": [
+        "patterns",
+        "design",
+        "javascript",
+        "typescript",
+        "best",
+        "practices"
+    ],
+    "version": "0.2.0",
     "readme": "README.md",
     "devDependencies": {
-        "grunt-contrib-clean": "*",
-        "grunt-contrib-jasmine": "*",
-        "grunt-contrib-jshint": "*",
-        "grunt-contrib-uglify": "*",
-        "grunt-jsonlint": "*",
-        "grunt-typescript": "*",
-        "grunt-banner": "*",
-        "typescript": "^1.4"
-    }
+        "grunt-contrib-clean": "latest",
+        "grunt-contrib-jasmine": "latest",
+        "grunt-contrib-jshint": "latest",
+        "grunt-contrib-uglify": "latest",
+        "grunt-jsonlint": "latest",
+        "grunt-tslint": "latest",
+        "grunt-typescript": "latest",
+        "grunt-banner": "latest",
+        "typescript": "latest"
+    },
+    "bugs": "https://github.com/SergioMorchon/Good/issues",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SergioMorchon/Good.git"
+    },
+    "main": "./dist/good.js"
 }

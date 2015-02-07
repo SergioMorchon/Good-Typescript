@@ -24,7 +24,7 @@ describe("Parallel",() => {
                 return [r1, r2, r3.join("")].join(" ");
             });
 
-            task.runAsync(p1, p2, p3).end((result: string) => {
+            task.run(p1, p2, p3).done((result: string) => {
                 expect(result).toBe("task must work");
                 done();
             });

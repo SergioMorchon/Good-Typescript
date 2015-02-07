@@ -49,9 +49,9 @@ describe("Future",() => {
             });
 
             for (i = 0; i < progressTimes; i++) {
-                async.progress(progressValue);
+                async.notify(progressValue);
             }
-            async.end();
+            async.resolve();
         });
 
         it("must notify the fail event",(done: Function) => {
@@ -63,25 +63,56 @@ describe("Future",() => {
             });
 
             expect(async.state()).toBe(Good.Patterns.Future.Async.State.Active);
-            async.fail();
+            async.reject();
         });
 
         it("must notify the end even after ended, inmediatly",(done: Function) => {
-            var ended = false;
-            async.end();
-            await.end(() => {
-                ended = true;
-            }).end(() => {
-                expect(ended).toBe(true);
+            async.resolve(3);
+            await.done((result: number) => {
+                expect(result).toBe(3);
                 done();
             });
         });
 
         it("must notify the fail even after ended, inmediatly",(done: Function) => {
             var errorToThrow = {};
-            async.fail(errorToThrow);
+            async.reject(errorToThrow);
             await.fail((errorThrown: any) => {
                 expect(errorThrown).toBe(errorToThrow);
+                done();
+            });
+        });
+    });
+
+    describe("When", () => {
+        var max = 2,
+            asyncs = <Good.Patterns.Future.Async<void, void, void>[]>[],
+            awaits = <Good.Patterns.Future.IAwait<void, void, void>[]>[];
+
+        beforeEach(() => {
+            var i = 0;
+
+            for (; i < max; i++) {
+                asyncs.push(new Good.Patterns.Future.Async<void, void, void>());
+                awaits.push(asyncs[i].await());
+            }
+        });
+
+        it("must await for all the given awaitables", (done: Function) => {
+            var count = 0,
+                i = 0;
+
+            function inc() {
+                count++;
+            }
+
+            for (; i < asyncs.length; i++) {
+                asyncs[i].resolve();
+                awaits[i].done(inc);
+            }
+
+            Good.Patterns.Future.await.apply(null, awaits).done(() => {
+                expect(count).toBe(max);
                 done();
             });
         });

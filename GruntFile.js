@@ -29,6 +29,17 @@ module.exports = function (grunt) {
             gruntfile: ["GruntFile.js"],
             options: grunt.file.readJSON("jshint.json")
         },
+        tslint: {
+            options: {
+                configuration: grunt.file.readJSON("tslint.json")
+            },
+            src: {
+                src: ["src/ts/**/*.ts", "!**/*.d.ts"]
+            },
+            spec: {
+                src: ["spec/**/*.ts", "!**/*.d.ts"]
+            }
+        },
         typescript: {
             spec: {
                 src: ["spec/**/*Spec.ts"],
@@ -113,6 +124,7 @@ module.exports = function (grunt) {
     });
 
     grunt.loadNpmTasks("grunt-jsonlint");
+    grunt.loadNpmTasks("grunt-tslint");
     grunt.loadNpmTasks("grunt-typescript");
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-contrib-uglify");
@@ -121,9 +133,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-banner");
 
     grunt.registerTask("test", ["clean:spec", "typescript:spec", "jasmine:spec"]);
+    grunt.registerTask("lint", ["jsonlint", "jshint", "tslint"]);
 
     grunt.registerTask("bdd", ["clean:bdd", "typescript:bdd", "jasmine:bdd"]);
 
     grunt.registerTask("default", ["jsonlint", "jshint", "clean:dist", "typescript:debug", "usebanner"]);
-    grunt.registerTask("release", ["jsonlint", "jshint", "clean:dist", "typescript:release", "uglify:release", "test", "usebanner"]);
+    grunt.registerTask("release", ["tslint:src", "clean:dist", "typescript:release", "uglify:release", "tslint:spec", "test", "usebanner"]);
 };
