@@ -1,5 +1,5 @@
-﻿/// <reference path="../dist/good.d.ts" />
-/// <reference path="libs/jasmine.d.ts" />
+﻿/// <reference path="../../dist/good.d.ts" />
+/// <reference path="../libs/jasmine.d.ts" />
 describe("Parallel",() => {
     "use strict";
 
