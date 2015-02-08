@@ -137,8 +137,8 @@ module.exports = function (grunt) {
 
     grunt.registerTask("bdd", ["clean:bdd", "typescript:bdd", "jasmine:bdd"]);
 
+    grunt.registerTask("build", ["tslint:src", "clean:dist", "typescript:release", "uglify:release", "usebanner"]);
+
     grunt.registerTask("default", ["jsonlint", "jshint", "clean:dist", "typescript:debug", "usebanner"]);
     grunt.registerTask("release", ["tslint:src", "clean:dist", "typescript:release", "uglify:release", "tslint:spec", "test", "usebanner"]);
-
-    grunt.registerTask("travis", ["release"]);
 };
