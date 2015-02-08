@@ -37,7 +37,7 @@
         "url": "https://github.com/SergioMorchon/Good.git"
     },
     "engines": { 
-        "node": ">=0.6"
+        "node": ">=0.10"
     },
     "main": "./dist/good.js",
     "scripts": {
