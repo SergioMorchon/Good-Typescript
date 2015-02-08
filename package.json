@@ -1,6 +1,6 @@
 {
-    "name": "Good",
-    "author": "Sergio Morchón Poveda",
+    "name": "good-typescript",
+    "author": "Sergio Morchón Poveda <sergio.morchon@outlook.com>",
     "homepage": "https://github.com/SergioMorchon/Good",
     "description": "Some good and useful implementations for TypeScript or JavaScript projects.",
     "licenses": [
@@ -28,6 +28,7 @@
         "grunt-tslint": "latest",
         "grunt-typescript": "latest",
         "grunt-banner": "latest",
+        "grunt-cli": "latest",
         "typescript": "latest"
     },
     "bugs": "https://github.com/SergioMorchon/Good/issues",
@@ -35,5 +36,11 @@
         "type": "git",
         "url": "https://github.com/SergioMorchon/Good.git"
     },
-    "main": "./dist/good.js"
+    "engines": { 
+        "node": ">=0.10"
+    },
+    "main": "./dist/good.js",
+    "scripts": {
+        "test": "grunt test --verbose"
+    }
 }
