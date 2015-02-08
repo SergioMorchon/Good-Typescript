@@ -3,6 +3,7 @@
  * Basically, an Await represents a promise of a result which we don't know when it will end, and the Async is the notifier for the awaitable object.
  */
 module Good.Patterns.Future {
+    "use strict";
 
     /**
      * The listener for a done event.

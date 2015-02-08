@@ -3,6 +3,7 @@
  * This module contains functionalities for managing parallelizable tasks reusing the concept of the Future pattern.
  */
 module Good.Patterns.Parallel {
+    "use strict";
 
     /**
      * A callbak for a Task instance, represents the main business logical process.

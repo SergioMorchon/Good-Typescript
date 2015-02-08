@@ -1,5 +1,6 @@
 {
     "name": "good-typescript",
+    "version": "0.3.0",
     "author": "Sergio Morchón Poveda <sergio.morchon@outlook.com>",
     "homepage": "https://github.com/SergioMorchon/Good",
     "description": "Some good and useful implementations for TypeScript or JavaScript projects.",
@@ -17,8 +18,6 @@
         "best",
         "practices"
     ],
-    "version": "0.2.1",
-    "readme": "README.md",
     "devDependencies": {
         "grunt-contrib-clean": "latest",
         "grunt-contrib-jasmine": "latest",

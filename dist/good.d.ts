@@ -1,3 +1,38 @@
+declare module Good {
+    /**
+     * A basic Error class to inherit from.
+     */
+    class Error {
+        /**
+         * The message for this error.
+         */
+        message: string;
+        constructor(message: string);
+        toString(): string;
+    }
+}
+/**
+ * This module implements a light-weight Contract pattern.
+ * It will help to ensure that the specified conditions are correctly satisfied at the start and/or the end of some execution.
+ */
+declare module Good.Patterns.Contract {
+    class Error extends Good.Error {
+    }
+    class PreConditionError extends Error {
+    }
+    class PostConditionError extends Error {
+    }
+    /**
+     * You can express a pre-condition by requiring a valid value. If not, will throw an error.
+     * This line should be at the top of a function body to ensure a correct start state.
+     */
+    function requires(valid: boolean, error?: string): void;
+    /**
+     * You can express a post-condition by requiring a valid value. If not, will throw an error.
+     * This line should be at the bottom of a function body to ensure a correct end state.
+     */
+    function ensures(valid: boolean, error?: string): void;
+}
 /**
  * This module holds the Async-Await implementation of the Future pattern.
  * Basically, an Await represents a promise of a result which we don't know when it will end, and the Async is the notifier for the awaitable object.
