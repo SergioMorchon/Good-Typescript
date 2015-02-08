@@ -42,7 +42,7 @@ module.exports = function (grunt) {
         },
         typescript: {
             spec: {
-                src: ["spec/**/*Spec.ts"],
+                src: ["spec/**/*.spec.ts"],
                 options: {
                     module: "",
                     target: "es3",
@@ -53,7 +53,7 @@ module.exports = function (grunt) {
                 }
             },
             bdd: {
-                src: ["spec/**/*Feature.ts"],
+                src: ["spec/**/*.feature.ts"],
                 options: {
                     module: "",
                     target: "es3",
@@ -94,14 +94,14 @@ module.exports = function (grunt) {
             bdd: {
                 src: "dist/good.js",
                 options: {
-                    specs: "spec/**/*Feature.js",
+                    specs: "spec/**/*.feature.js",
                     summary: true
                 }
             },
             spec: {
                 src: "dist/good.js",
                 options: {
-                    specs: "spec/**/*Spec.js",
+                    specs: "spec/**/*.spec.js",
                     summary: true,
                     display: "none"
                 }
@@ -110,8 +110,8 @@ module.exports = function (grunt) {
         clean: {
             tmp: ["**/*.TMP"],
             dist: ["dist/"],
-            spec: ["spec/**/*Feature.js"],
-            bdd: ["bdd/**/*Spec.js"]
+            spec: ["spec/**/*.spec.js"],
+            bdd: ["bdd/**/*.feature.js"]
         },
         usebanner: {
             options: {
