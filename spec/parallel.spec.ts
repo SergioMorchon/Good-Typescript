@@ -17,11 +17,11 @@ describe("Parallel",() => {
             var task: Good.Patterns.Parallel.Task<string, void, string>,
                 p1 = "task", p2 = "must", p3 = ["w", "o", "r", "k"];
 
-            task = new Good.Patterns.Parallel.Task<string, void, string>((r1: string, r2: string, r3: string[]) => {
+            task = new Good.Patterns.Parallel.Task<string, void, string>((async: Good.Patterns.Future.Async<string, void, string>, r1: string, r2: string, r3: string[]) => {
                 expect(r1).toBe(p1);
                 expect(r2).toBe(p2);
                 expect(r3).toBe(p3);
-                return [r1, r2, r3.join("")].join(" ");
+                async.resolve([r1, r2, r3.join("")].join(" "));
             });
 
             task.run(p1, p2, p3).done((result: string) => {

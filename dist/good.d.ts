@@ -96,11 +96,29 @@ declare module Good.Patterns.Future {
         private _failed;
         private _hasError;
         private _hasResult;
+        /**
+         * It represents the current state of the async.
+         */
         state(): Async.State;
+        /**
+         * This method resolves the current async.
+         * @param result The result tha will be received at the await done callbacks,
+         */
         resolve(result?: TResult): void;
+        /**
+         * This method rejects the current async.
+         * @param exception THe error that will be catched at the await fail callbacks.
+         */
         reject(exception?: TException): void;
+        /**
+         * This method notifies progress within the current async.
+         * @param progress THe progress value that will be received at the progress callbacks.
+         */
         notify(progress?: TProgress): void;
         private _await;
+        /**
+         * It returns an await from this async instance.
+         */
         await(): {
             done: (...listeners: Function[]) => IAwait<TResult, TProgress, TException>;
             fail: (...listeners: Function[]) => IAwait<TResult, TProgress, TException>;
@@ -110,6 +128,9 @@ declare module Good.Patterns.Future {
         };
     }
     module Async {
+        /**
+         * It represents the state of an async.
+         */
         enum State {
             /**
              * The async is active.
@@ -122,7 +143,9 @@ declare module Good.Patterns.Future {
         }
     }
     /**
-     *
+     * This function merge all the given awaits into a unique one, notifying the progress.
+     * It will fail if at least one of the input awaits receives the fail event.
+     * @param awaits A list of await objects to await for.
      */
     function await(...awaits: IAwait<any, any, any>[]): {
         done: (...listeners: Function[]) => IAwait<void, [number, number], void>;
@@ -132,12 +155,33 @@ declare module Good.Patterns.Future {
         state: () => Async.State;
     };
 }
+/**
+ * This module contains functionalities for managing parallelizable tasks reusing the concept of the Future pattern.
+ */
 declare module Good.Patterns.Parallel {
+    /**
+     * A callbak for a Task instance, represents the main business logical process.
+     * It will be called when the run method is called.
+     * @param async The task will inject an async instance which should be completed within this function.
+     * @param args The arguments that will be piped from the run call.
+     */
+    type AsyncCallback = <TResult, TProgress, TException>(async: Future.IAsync<TResult, TProgress, TException>, ...args: any[]) => void;
+    /**
+     * This is a Task class which can execute functions deferring its execution result with the Async-Await Future Pattern.
+     */
     class Task<TResult, TProgress, TException> {
         private _callback;
         private _async;
         private _thisArg;
-        constructor(callback: (...args: any[]) => TResult, thisArg?: any);
+        /**
+         * @param callback The main function of this task.
+         * @param thisArg the this value for the callback function (via apply).
+         */
+        constructor(callback: AsyncCallback, thisArg?: any);
+        /**
+         * Gets the await representation of this task.
+         * @returns An await object which will be completed when the task is finished.
+         */
         await(): {
             done: (...listeners: Function[]) => Future.IAwait<TResult, TProgress, TException>;
             fail: (...listeners: Function[]) => Future.IAwait<TResult, TProgress, TException>;
@@ -145,6 +189,11 @@ declare module Good.Patterns.Parallel {
             always: (...listeners: Function[]) => Future.IAwait<TResult, TProgress, TException>;
             state: () => Future.Async.State;
         };
+        /**
+         * Starts the execution by calling the inner callback with those arguments.
+         * @param args Arrguments to pass to the execute function.
+         * @returns An await object.
+         */
         run(...args: any[]): Future.IAwait<TResult, TProgress, TException>;
     }
 }
