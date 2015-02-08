@@ -28,7 +28,7 @@
         "grunt-tslint": "latest",
         "grunt-typescript": "latest",
         "grunt-banner": "latest",
-        "grunt": "latest",
+        "grunt-cli": "latest",
         "typescript": "latest"
     },
     "bugs": "https://github.com/SergioMorchon/Good/issues",

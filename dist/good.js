@@ -1,4 +1,235 @@
 /*!
  * Good 0.2.0
  */
-var Good;!function(a){var b;!function(a){var b;!function(a){function b(a,b){for(var c=0;c<a.length;c++)arguments.length>=2?a[c](b):a[c]()}function c(a,b){for(var c=0;c<a.length;c++)b.push(a[c])}function d(){function a(){return 0===i.state()}function b(){a()&&i.resolve()}function c(){j++,i.notify([j,f.length])}function d(b){a()&&i.reject(b)}for(var f=[],g=0;g<arguments.length;g++)f[g-0]=arguments[g];for(var h,i=new e,j=0,k=0;k<f.length;k++)h=f[k],h.progress(c).done(b).fail(d);return i.await()}var e=function(){function a(){var a=this;this._doneListeners=[],this._failListeners=[],this._progressListeners=[],this._alwaysListeners=[],this._state=0,this._failed=!1,this._hasError=!1,this._hasResult=!1,this._await={done:function(){for(var d=[],e=0;e<arguments.length;e++)d[e-0]=arguments[e];return c(d,a._doneListeners),1!==a._state||a._failed||(a._hasResult?b(d,a._endResult):b(d)),a._await},fail:function(){for(var d=[],e=0;e<arguments.length;e++)d[e-0]=arguments[e];return c(d,a._failListeners),1===a._state&&a._failed&&(a._hasError?b(d,a._errorResult):b(d)),a._await},progress:function(){for(var b=[],d=0;d<arguments.length;d++)b[d-0]=arguments[d];return c(b,a._progressListeners),a._await},always:function(){for(var d=[],e=0;e<arguments.length;e++)d[e-0]=arguments[e];return c(d,a._alwaysListeners),1===a._state&&b(d),a._await},state:function(){return a._state}}}return a.prototype.state=function(){return this._state},a.prototype.resolve=function(a){0===this._state&&(this._state=1,this._endResult=a,arguments.length>=1?(this._hasResult=!0,b(this._doneListeners,a)):(this._hasResult=!1,b(this._doneListeners)),b(this._alwaysListeners))},a.prototype.reject=function(a){0===this._state&&(this._failed=!0,this._state=1,this._errorResult=a,arguments.length>=1?(this._hasError=!0,b(this._failListeners,a)):(this._hasError=!1,b(this._failListeners)),b(this._alwaysListeners))},a.prototype.notify=function(a){0===this._state&&(arguments.length>=1?b(this._progressListeners,a):b(this._progressListeners))},a.prototype.await=function(){return this._await},a}();a.Async=e;var e;!function(a){!function(a){a[a.Active=0]="Active",a[a.Completed=1]="Completed"}(a.State||(a.State={}));a.State}(e=a.Async||(a.Async={})),a.await=d}(b=a.Future||(a.Future={}))}(b=a.Patterns||(a.Patterns={}))}(Good||(Good={}));var Good;!function(a){var b;!function(a){var b;!function(b){var c=function(){function b(b,c){void 0===c&&(c=null),this._callback=b,this._async=new a.Future.Async,this._thisArg=c}return b.prototype.await=function(){return this._async.await()},b.prototype.run=function(){for(var a=this,b=[],c=0;c<arguments.length;c++)b[c-0]=arguments[c];return setTimeout(function(){try{a._async.resolve(a._callback.apply(a._thisArg,b))}catch(c){a._async.reject(c)}}),this.await()},b}();b.Task=c}(b=a.Parallel||(a.Parallel={}))}(b=a.Patterns||(a.Patterns={}))}(Good||(Good={}));
+/**
+ * This module holds the Async-Await implementation of the Future pattern.
+ * Basically, an Await represents a promise of a result which we don't know when it will end, and the Async is the notifier for the awaitable object.
+ */
+var Good;
+(function (Good) {
+    var Patterns;
+    (function (Patterns) {
+        var Future;
+        (function (Future) {
+            function notifyListeners(listeners, result) {
+                for (var i = 0; i < listeners.length; i++) {
+                    if (arguments.length >= 2) {
+                        listeners[i](result);
+                    }
+                    else {
+                        listeners[i]();
+                    }
+                }
+            }
+            function dump(origin, target) {
+                for (var i = 0; i < origin.length; i++) {
+                    target.push(origin[i]);
+                }
+            }
+            var Async = (function () {
+                function Async() {
+                    var _this = this;
+                    this._doneListeners = [];
+                    this._failListeners = [];
+                    this._progressListeners = [];
+                    this._alwaysListeners = [];
+                    this._state = 0 /* Active */;
+                    this._failed = false;
+                    this._hasError = false;
+                    this._hasResult = false;
+                    this._await = {
+                        done: function () {
+                            var listeners = [];
+                            for (var _i = 0; _i < arguments.length; _i++) {
+                                listeners[_i - 0] = arguments[_i];
+                            }
+                            dump(listeners, _this._doneListeners);
+                            if (_this._state === 1 /* Completed */ && !_this._failed) {
+                                if (_this._hasResult) {
+                                    notifyListeners(listeners, _this._endResult);
+                                }
+                                else {
+                                    notifyListeners(listeners);
+                                }
+                            }
+                            return _this._await;
+                        },
+                        fail: function () {
+                            var listeners = [];
+                            for (var _i = 0; _i < arguments.length; _i++) {
+                                listeners[_i - 0] = arguments[_i];
+                            }
+                            dump(listeners, _this._failListeners);
+                            if (_this._state === 1 /* Completed */ && _this._failed) {
+                                if (_this._hasError) {
+                                    notifyListeners(listeners, _this._errorResult);
+                                }
+                                else {
+                                    notifyListeners(listeners);
+                                }
+                            }
+                            return _this._await;
+                        },
+                        progress: function () {
+                            var listeners = [];
+                            for (var _i = 0; _i < arguments.length; _i++) {
+                                listeners[_i - 0] = arguments[_i];
+                            }
+                            dump(listeners, _this._progressListeners);
+                            return _this._await;
+                        },
+                        always: function () {
+                            var listeners = [];
+                            for (var _i = 0; _i < arguments.length; _i++) {
+                                listeners[_i - 0] = arguments[_i];
+                            }
+                            dump(listeners, _this._alwaysListeners);
+                            if (_this._state === 1 /* Completed */) {
+                                notifyListeners(listeners);
+                            }
+                            return _this._await;
+                        },
+                        state: function () {
+                            return _this._state;
+                        }
+                    };
+                }
+                Async.prototype.state = function () {
+                    return this._state;
+                };
+                Async.prototype.resolve = function (result) {
+                    if (this._state === 0 /* Active */) {
+                        this._state = 1 /* Completed */;
+                        this._endResult = result;
+                        if (arguments.length >= 1) {
+                            this._hasResult = true;
+                            notifyListeners(this._doneListeners, result);
+                        }
+                        else {
+                            this._hasResult = false;
+                            notifyListeners(this._doneListeners);
+                        }
+                        notifyListeners(this._alwaysListeners);
+                    }
+                };
+                Async.prototype.reject = function (exception) {
+                    if (this._state === 0 /* Active */) {
+                        this._failed = true;
+                        this._state = 1 /* Completed */;
+                        this._errorResult = exception;
+                        if (arguments.length >= 1) {
+                            this._hasError = true;
+                            notifyListeners(this._failListeners, exception);
+                        }
+                        else {
+                            this._hasError = false;
+                            notifyListeners(this._failListeners);
+                        }
+                        notifyListeners(this._alwaysListeners);
+                    }
+                };
+                Async.prototype.notify = function (progress) {
+                    if (this._state === 0 /* Active */) {
+                        if (arguments.length >= 1) {
+                            notifyListeners(this._progressListeners, progress);
+                        }
+                        else {
+                            notifyListeners(this._progressListeners);
+                        }
+                    }
+                };
+                Async.prototype.await = function () {
+                    return this._await;
+                };
+                return Async;
+            })();
+            Future.Async = Async;
+            var Async;
+            (function (Async) {
+                (function (State) {
+                    /**
+                     * The async is active.
+                     */
+                    State[State["Active"] = 0] = "Active";
+                    /**
+                     * The async is completed.
+                     */
+                    State[State["Completed"] = 1] = "Completed";
+                })(Async.State || (Async.State = {}));
+                var State = Async.State;
+            })(Async = Future.Async || (Future.Async = {}));
+            /**
+             *
+             */
+            function await() {
+                var awaits = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    awaits[_i - 0] = arguments[_i];
+                }
+                var async = new Async(), await, completedCount = 0, i = 0;
+                function currentActive() {
+                    return async.state() === 0 /* Active */;
+                }
+                function onCompleted() {
+                    if (currentActive()) {
+                        async.resolve();
+                    }
+                }
+                function onProgress() {
+                    completedCount++;
+                    async.notify([completedCount, awaits.length]);
+                }
+                function onFailed(error) {
+                    if (currentActive()) {
+                        async.reject(error);
+                    }
+                }
+                for (; i < awaits.length; i++) {
+                    await = awaits[i];
+                    await.progress(onProgress).done(onCompleted).fail(onFailed);
+                }
+                return async.await();
+            }
+            Future.await = await;
+        })(Future = Patterns.Future || (Patterns.Future = {}));
+    })(Patterns = Good.Patterns || (Good.Patterns = {}));
+})(Good || (Good = {}));
+/// <reference path="future.ts" />
+var Good;
+(function (Good) {
+    var Patterns;
+    (function (Patterns) {
+        var Parallel;
+        (function (Parallel) {
+            var Task = (function () {
+                function Task(callback, thisArg) {
+                    if (thisArg === void 0) { thisArg = null; }
+                    this._callback = callback;
+                    this._async = new Patterns.Future.Async();
+                    this._thisArg = thisArg;
+                }
+                Task.prototype.await = function () {
+                    return this._async.await();
+                };
+                Task.prototype.run = function () {
+                    var _this = this;
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i - 0] = arguments[_i];
+                    }
+                    setTimeout(function () {
+                        try {
+                            _this._async.resolve(_this._callback.apply(_this._thisArg, args));
+                        }
+                        catch (e) {
+                            _this._async.reject(e);
+                        }
+                    });
+                    return this.await();
+                };
+                return Task;
+            })();
+            Parallel.Task = Task;
+        })(Parallel = Patterns.Parallel || (Patterns.Parallel = {}));
+    })(Patterns = Good.Patterns || (Good.Patterns = {}));
+})(Good || (Good = {}));
