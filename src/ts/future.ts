@@ -121,10 +121,17 @@ module Good.Patterns.Future {
         private _hasError = false;
         private _hasResult = false;
 
+        /**
+         * It represents the current state of the async.
+         */
         state() {
             return this._state;
         }
 
+        /**
+         * This method resolves the current async.
+         * @param result The result tha will be received at the await done callbacks,
+         */
         resolve(result?: TResult) {
             if (this._state === Async.State.Active) {
                 this._state = Async.State.Completed;
@@ -140,6 +147,10 @@ module Good.Patterns.Future {
             }
         }
 
+        /**
+         * This method rejects the current async.
+         * @param exception THe error that will be catched at the await fail callbacks.
+         */
         reject(exception?: TException) {
             if (this._state === Async.State.Active) {
                 this._failed = true;
@@ -156,6 +167,10 @@ module Good.Patterns.Future {
             }
         }
 
+        /**
+         * This method notifies progress within the current async.
+         * @param progress THe progress value that will be received at the progress callbacks.
+         */
         notify(progress?: TProgress) {
             if (this._state === Async.State.Active) {
                 if (arguments.length >= 1) {
@@ -205,12 +220,19 @@ module Good.Patterns.Future {
             }
         };
 
+        /**
+         * It returns an await from this async instance.
+         */
         await() {
             return this._await;
         }
     }
 
     export module Async {
+
+        /**
+         * It represents the state of an async.
+         */
         export enum State {
             /**
              * The async is active.
@@ -224,7 +246,9 @@ module Good.Patterns.Future {
     }
 
     /**
-     * 
+     * This function merge all the given awaits into a unique one, notifying the progress.
+     * It will fail if at least one of the input awaits receives the fail event.
+     * @param awaits A list of await objects to await for.
      */
     export function await(...awaits: IAwait<any, any, any>[]) {
         var async = new Async<void, [number, number], void>(),
