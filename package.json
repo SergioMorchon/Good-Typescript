@@ -35,5 +35,8 @@
         "type": "git",
         "url": "https://github.com/SergioMorchon/Good.git"
     },
-    "main": "./dist/good.js"
+    "main": "./dist/good.js",
+    "scripts": {
+        "test": "grunt travis --verbose"
+    }
 }
