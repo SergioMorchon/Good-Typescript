@@ -41,6 +41,6 @@
     },
     "main": "./dist/good.js",
     "scripts": {
-        "test": "grunt build --verbose"
+        "test": "grunt test --verbose"
     }
 }
