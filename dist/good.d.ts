@@ -154,13 +154,7 @@ declare module Good.Patterns.Future {
         /**
          * It returns an await from this async instance.
          */
-        await(): {
-            done: (...listeners: Function[]) => IAwait<TResult, TProgress, TException>;
-            fail: (...listeners: Function[]) => IAwait<TResult, TProgress, TException>;
-            progress: (...listeners: Function[]) => IAwait<TResult, TProgress, TException>;
-            always: (...listeners: Function[]) => IAwait<TResult, TProgress, TException>;
-            state: () => Async.State;
-        };
+        await(): IAwait<TResult, TProgress, TException>;
     }
     module Async {
         /**
@@ -182,13 +176,25 @@ declare module Good.Patterns.Future {
      * It will fail if at least one of the input awaits receives the fail event.
      * @param awaits A list of await objects to await for.
      */
-    function await(...awaits: IAwait<any, any, any>[]): {
-        done: (...listeners: Function[]) => IAwait<void, [number, number], void>;
-        fail: (...listeners: Function[]) => IAwait<void, [number, number], void>;
-        progress: (...listeners: Function[]) => IAwait<void, [number, number], void>;
-        always: (...listeners: Function[]) => IAwait<void, [number, number], void>;
-        state: () => Async.State;
-    };
+    function await(...awaits: IAwait<any, any, any>[]): IAwait<void, [number, number], void>;
+}
+/**
+ * This module is dedicated for the Namespace pattern.
+ * It helps to create depp namespaces allocated into objects.
+ */
+declare module Good.Patterns.Namespace {
+    /**
+     * Extends the parent object with the given namespace.
+     * @param path The path to add to the parent, splitted by dots (.).
+     * @returns The last path object of the namespace.
+     */
+    function extend(parent: Object, path: string): Object;
+    /**
+     * Extends the parent object with the given namespace.
+     * @param path The paths to add to the parent.
+     * @returns The last path object of the namespace.
+     */
+    function extend(parent: Object, path: string[]): Object;
 }
 /**
  * This module contains functionalities for managing parallelizable tasks reusing the concept of the Future pattern.
@@ -217,13 +223,7 @@ declare module Good.Patterns.Parallel {
          * Gets the await representation of this task.
          * @returns An await object which will be completed when the task is finished.
          */
-        await(): {
-            done: (...listeners: Function[]) => Future.IAwait<TResult, TProgress, TException>;
-            fail: (...listeners: Function[]) => Future.IAwait<TResult, TProgress, TException>;
-            progress: (...listeners: Function[]) => Future.IAwait<TResult, TProgress, TException>;
-            always: (...listeners: Function[]) => Future.IAwait<TResult, TProgress, TException>;
-            state: () => Future.Async.State;
-        };
+        await(): Future.IAwait<TResult, TProgress, TException>;
         /**
          * Starts the execution by calling the inner callback with those arguments.
          * @param args Arrguments to pass to the execute function.
