@@ -182,7 +182,7 @@ module Good.Patterns.Future {
             }
         }
 
-        private _await = {
+        private _await: IAwait<TResult, TProgress, TException> = {
             done: (...listeners: Function[]): IAwait<TResult, TProgress, TException> => {
                 dump(listeners, this._doneListeners);
                 if (this._state === Async.State.Completed && !this._failed) {
