@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/SergioMorchon/Good.svg?branch=master)](https://travis-ci.org/SergioMorchon/TypeScript)
+[![Build Status](https://travis-ci.org/SergioMorchon/Good.svg?branch=master)](https://travis-ci.org/SergioMorchon/Good)
 
 # Good
 
