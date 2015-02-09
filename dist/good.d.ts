@@ -12,6 +12,28 @@ declare module Good {
     }
 }
 /**
+ * This module contains a basic Command pattern implementation.
+ */
+declare module Good.Patterns.Command {
+    /**
+     * An Invoker object is able to execute actions over some data.
+     */
+    class Invoker<T> {
+        private _data;
+        /**
+         * @param data This is the data object whose methods will be executed.
+         */
+        constructor(data: T);
+        /**
+         * Executes a method with the given arguments.
+         * @param method The method name.
+         * @param args The arguments for the execution.
+         * @returns The execution result.
+         */
+        execute<Y>(method: string, ...args: any[]): Y;
+    }
+}
+/**
  * This module implements a light-weight Contract pattern.
  * It will help to ensure that the specified conditions are correctly satisfied at the start and/or the end of some execution.
  */
