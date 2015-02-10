@@ -1,9 +1,6 @@
 [![Build Status](https://travis-ci.org/SergioMorchon/Good-Typescript.svg?branch=master)](https://travis-ci.org/SergioMorchon/Good-Typescript)
-
 # Good
-
 Some good and useful implementations for TypeScript or JavaScript projects.
-
 ## Async & Await tasks
 ``` typescript
 var task: Good.Patterns.Parallel.Task<string, void, string>,
@@ -16,4 +13,11 @@ task = new Good.Patterns.Parallel.Task<string, void, string>((async: Good.Patter
 task.run(p1, p2, p3).done((result: string) => {
     console.log(result);// "task must work"
 });
+```
+## Contract
+``` typescript
+Good.Patterns.Contract.requires(true);// ok
+Good.Patterns.Contract.requires(false, "contract violation");// throws a PreConditionError
+Good.Patterns.Contract.ensures(true);// ok
+Good.Patterns.Contract.ensures(false, "contract violation");// throws a PostConditionError
 ```
