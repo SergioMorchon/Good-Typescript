@@ -65,3 +65,14 @@ var data = {
 console.log(command.execute("add", 4, 6));// 10
 command.execute("notExists");// throws an InvocationError
 ```
+### Mediator
+``` typescript
+ var group = new Good.Patterns.Mediator.Group(),
+	error = "Some core error";
+
+group.subscribe("core-error",(value: any) => {
+	console.log(value);
+});
+
+group.publish("core-error", error);// "error"
+```

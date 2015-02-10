@@ -15,6 +15,8 @@ declare module Good {
  * This module contains a basic Command pattern implementation.
  */
 declare module Good.Patterns.Command {
+    class InvocationError extends Error {
+    }
     /**
      * An Invoker object is able to execute actions over some data.
      */
@@ -47,13 +49,17 @@ declare module Good.Patterns.Contract {
     /**
      * You can express a pre-condition by requiring a valid value. If not, will throw an error.
      * This line should be at the top of a function body to ensure a correct start state.
+     * @param valid A value that must be truthy.
+     * @param error An error message.
      */
-    function requires(valid: boolean, error?: string): void;
+    function requires(valid: any, error?: string): void;
     /**
      * You can express a post-condition by requiring a valid value. If not, will throw an error.
      * This line should be at the bottom of a function body to ensure a correct end state.
+     * @param valid A value that must be truthy.
+     * @param error An error message.
      */
-    function ensures(valid: boolean, error?: string): void;
+    function ensures(valid: any, error?: string): void;
 }
 /**
  * This module holds the Async-Await implementation of the Future pattern.
@@ -199,6 +205,51 @@ declare module Good.Patterns.Future {
      * @param awaits A list of await objects to await for.
      */
     function await(...awaits: IAwait<any, any, any>[]): IAwait<void, [number, number], void>;
+}
+/**
+ * This module contains one implementation of the Mediator pattern.
+ * The Mediator is like a manager, centralizing the communications between elements by notifying events by difrerent channels.
+ */
+declare module Good.Patterns.Mediator {
+    interface IMediator {
+        /**
+         * Adds a susbcription for the next channel triggered events.
+         * @param channel Channel to listen for.
+         * @param subscription Function which will be called.
+         * @param context The context for the callback: the 'this' value.
+         */
+        subscribe(channel: string, subscription: Function, context?: any): void;
+        /**
+         * Publish a change into a channel.
+         * @param channel The channel where the change will be published.
+         * @param args The args that represents the publish itself.
+         */
+        publish(channel: string, ...args: any[]): void;
+    }
+    /**
+     * Holds channels and nofities subscribers when someone else publishes anything into a channel.
+     */
+    class Group implements IMediator {
+        private _hub;
+        /**
+         * Adds a susbcription for the next channel triggered events.
+         * @param channel Channel to listen for.
+         * @param subscription Function which will be called.
+         * @param context The context for the callback: the 'this' value.
+         */
+        subscribe(channel: string, subscription: Function, context?: any): void;
+        /**
+         * Publish a change into a channel.
+         * @param channel The channel where the change will be published.
+         * @param args The args that represents the publish itself.
+         */
+        publish(channel: string, ...args: any[]): void;
+        /**
+         * Implements into the target the IMediator interface with this group.
+         * @param target The object into which implement the methods.
+         */
+        attachTo(target: IMediator): void;
+    }
 }
 /**
  * This module is dedicated for the Namespace pattern.
