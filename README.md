@@ -1,7 +1,28 @@
 [![Build Status](https://travis-ci.org/SergioMorchon/Good-Typescript.svg?branch=master)](https://travis-ci.org/SergioMorchon/Good-Typescript)
 # Good
 Some good and useful implementations for TypeScript or JavaScript projects.
-## Async & Await tasks
+## Future
+``` typescript
+var async = new Good.Patterns.Future.Async<number, string, string>();
+
+async.await().done((result: number) => {
+	console.log(`done: ${result}`);
+}).progress((value: string) => {
+	console.log(`progress: ${value}`);
+}).fail((error: string) => {
+	console.log(`error: ${error}`);
+}).always(() => {
+	console.log("always");
+});
+
+async.notify("1");// "progress: 1"
+async.notify("3");// "progress: 3"
+async.notify("duck!");// "progress: duck!"
+
+async.resolve(4);// "done: 4"
+                 // "always"
+```
+## Parallel Tasks
 ``` typescript
 var task: Good.Patterns.Parallel.Task<string, void, string>,
     p1 = "task", p2 = "must", p3 = ["w", "o", "r", "k"];
