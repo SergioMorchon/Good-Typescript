@@ -1,7 +1,11 @@
 [![Build Status](https://travis-ci.org/SergioMorchon/Good-Typescript.svg?branch=master)](https://travis-ci.org/SergioMorchon/Good-Typescript)
 # Good
 Some good and useful implementations for TypeScript or JavaScript projects.
-## Future
+## Download
+Directly from the master branch _dist_ folder: https://github.com/SergioMorchon/Good-Typescript/tree/master/dist
+## Patterns
+Here are some examples of the main patterns here.
+### Future
 ``` typescript
 var async = new Good.Patterns.Future.Async<number, string, string>();
 
@@ -22,7 +26,7 @@ async.notify("duck!");// "progress: duck!"
 async.resolve(4);// "done: 4"
                  // "always"
 ```
-## Parallel Tasks
+### Parallel Tasks
 ``` typescript
 var task: Good.Patterns.Parallel.Task<string, void, string>,
     p1 = "task", p2 = "must", p3 = ["w", "o", "r", "k"];
@@ -35,14 +39,14 @@ task.run(p1, p2, p3).done((result: string) => {
     console.log(result);// "task must work"
 });
 ```
-## Contract
+### Contract
 ``` typescript
 Good.Patterns.Contract.requires(true);// ok
 Good.Patterns.Contract.requires(false, "contract violation");// throws a PreConditionError
 Good.Patterns.Contract.ensures(true);// ok
 Good.Patterns.Contract.ensures(false, "contract violation");// throws a PostConditionError
 ```
-## Namespace
+### Namespace
 ``` typescript
 var myModule: any = {},
     path: Object;
@@ -50,7 +54,7 @@ var myModule: any = {},
 path = Good.Patterns.Namespace.extend(myModule, "with.a.namespace");
 typeof myModule.with.a.namespace !== "undefined";// true
 ```
-## Command
+### Command
 ``` typescript
 var data = {
 	add: function (s1: number, s2: number) {
