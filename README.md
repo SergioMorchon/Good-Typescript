@@ -50,3 +50,14 @@ var myModule: any = {},
 path = Good.Patterns.Namespace.extend(myModule, "with.a.namespace");
 typeof myModule.with.a.namespace !== "undefined";// true
 ```
+## Command
+``` typescript
+var data = {
+	add: function (s1: number, s2: number) {
+		return s1 + s2;
+	}
+}, command = new Good.Patterns.Command.Invoker(data);
+
+console.log(command.execute("add", 4, 6));// 10
+command.execute("notExists");// throws an InvocationError
+```
