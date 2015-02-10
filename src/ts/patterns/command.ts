@@ -1,7 +1,11 @@
-﻿/**
+﻿/// <reference path="../error.ts" />
+/**
  * This module contains a basic Command pattern implementation.
  */
 module Good.Patterns.Command {
+
+    export class InvocationError extends Error {
+    }
 
     /**
      * An Invoker object is able to execute actions over some data.
@@ -24,7 +28,7 @@ module Good.Patterns.Command {
          */
         execute<Y>(method: string, ...args: any[]): Y {
             if (typeof this._data[method] !== "function") {
-                throw new Error(`No such method ${method}`);
+                throw new InvocationError(`No such method ${method}`);
             }
             return this._data[method].apply(this._data, args);
         }
