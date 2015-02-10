@@ -21,3 +21,11 @@ Good.Patterns.Contract.requires(false, "contract violation");// throws a PreCond
 Good.Patterns.Contract.ensures(true);// ok
 Good.Patterns.Contract.ensures(false, "contract violation");// throws a PostConditionError
 ```
+## Namespace
+``` typescript
+var myModule: any = {},
+    path: Object;
+
+path = Good.Patterns.Namespace.extend(myModule, "with.a.namespace");
+typeof myModule.with.a.namespace !== "undefined";// true
+```
